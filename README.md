@@ -1,16 +1,56 @@
-# React + Vite
+# PlayArena · owner website
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Marketing site for stadium and sports-venue owners. Built with React 19 and Vite.
 
-Currently, two official plugins are available:
+The visual language follows the PlayArena app designs in Figma: iOS Liquid Glass in light mode,
+Zalando Sans, Iconsax-style line icons, and venue photography from Pexels.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Scripts
 
-## React Compiler
+```bash
+npm install
+npm run dev      # local dev server
+npm run build    # production build into dist/
+npm run preview  # serve the production build
+npx oxlint src   # lint the source
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Pages
 
-## Expanding the Oxlint configuration
+| URL         | HTML entry           | Script                  |
+|-------------|----------------------|-------------------------|
+| `/`         | `index.html`         | `src/main.jsx`          |
+| `/terms/`   | `terms/index.html`   | `src/pages/terms.jsx`   |
+| `/privacy/` | `privacy/index.html` | `src/pages/privacy.jsx` |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Each page is built as its own HTML file (see `vite.config.js`), so the legal pages work on any static host
+without redirect rules.
+
+**Before publishing the legal pages**, replace the bracketed placeholders (company name, address, contact emails,
+Grievance Officer, court city) in `src/legal/company.js`. In development the legal pages log a console warning
+until they are filled in. Have the Terms and Privacy Policy reviewed by a lawyer before relying on them.
+
+## Structure
+
+```
+src/
+  App.jsx               home page composition
+  legal/                Terms & Privacy content, company details, LegalPage layout
+  pages/                entry scripts for the legal pages
+  index.css             design tokens, base styles, buttons, shared surfaces
+  App.css               section styles and responsive rules
+  data/content.js       all copy, plans, campaigns, and dashboard figures
+  hooks/                useRevealOnScroll, useScrollToHash
+  components/
+    SiteLayout.jsx      shared header, footer, toast and owner form for every page
+    Header, Hero, EnrollmentBar, SportsBand, ProblemSection, FlowSection,
+    FeatureSection, WorkspaceSection, CampaignSection, QuoteSection,
+    PlansSection, FinalCta, Footer, OwnerForm, Toast, SectionIntro, Logo
+    Icon.jsx            inline SVG icon set
+    PhoneFrame.jsx      device frame for app mockups
+    AppScreens.jsx      venue, slot, check-in, owner, and home screens
+    phone.css           mockup styles (em-based, scale with the frame width)
+  assets/photos/        Pexels photos (free to use under the Pexels licence)
+```
+
+Copy, prices, and dashboard numbers live in `src/data/content.js`, so content changes don't touch components.
